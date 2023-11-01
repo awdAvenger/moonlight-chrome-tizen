@@ -63,8 +63,6 @@ RUN cmake \
 RUN cmake --build build
 RUN cmake --install build --prefix build
 
-RUN cp moonlight-chrome-tizen/icons/icon.png build/widget/
-
 # Package and sign application 
 # Effectively runs `tizen package -t wgt -- build/widget`,
 # but uses an expect cmdfile to automate the password prompt.
