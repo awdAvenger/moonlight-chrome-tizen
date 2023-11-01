@@ -297,4 +297,5 @@ install(DIRECTORY wasm/platform DESTINATION widget)
 install(FILES wasm/index.html DESTINATION widget)
 install(FILES res/config.xml DESTINATION widget)
 install(FILES res/platform.js DESTINATION widget)
+install(FILES icons/icon.png  DESTINATION widget)
 
