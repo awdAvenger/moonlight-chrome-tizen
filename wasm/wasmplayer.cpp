@@ -160,9 +160,23 @@ int MoonlightInstance::StartupVidDecSetup(int videoFormat, int width,
   }
 
   {
+    const char *mimetype = "video/mp4";
+    if(videoFormat & VIDEO_FORMAT_H265_MAIN10) {
+      mimetype = "video/mp4; codecs=\"hev1.2.4.L120.B0\"";  // h265 main10 mimeType
+    } else if(videoFormat & VIDEO_FORMAT_H265) {
+      mimetype = "video/mp4; codecs=\"hev1.1.6.L93.B0\"";  // h265 main mimeType
+    } else if(videoFormat & VIDEO_FORMAT_H264) {
+      mimetype = "video/mp4; codecs=\"avc1.64002A\"";  // h264 High Profile 4.2 mimeType
+    }
+    else {
+      ClLogMessage("Cannot select mime type for videoFormat=0x%x\n", videoFormat);
+      return -1;
+    }
+
+    ClLogMessage("Using mimeType %s\n", mimetype);
     auto add_track_result = g_Instance->m_Source.AddTrack(
       samsung::wasm::ElementaryVideoTrackConfig{
-          "video/mp4; codecs=\"hev1.2.4.L120.B0\"",  // h265 mimeType
+          mimetype,
           {},                                   // extradata (empty?)
           static_cast<uint32_t>(width),
           static_cast<uint32_t>(height),
